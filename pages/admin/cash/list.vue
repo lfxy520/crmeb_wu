@@ -24,15 +24,13 @@
 								<view class='itemn acea-row row-between-wrapper'>
 									<view>
 										<block v-if="item.status<0">
-											<view class='name line1'><text class="message" >USDT (status:{{item.refusal}})</text></view>
+											<view class='name line1'><text class="message" style="color: red;">{{getTypeName(item.financial_type)}} ({{getStatusName(item.status)}})</text></view>
+										</block>
+										<block v-else-if="item.status==1">
+											<view class='name line1'><text class="message" style="color: green;">{{getTypeName(item.financial_type)}} ({{getStatusName(item.status)}})</text></view>
 										</block>
 										<block v-else>
-											<block v-if="item.financial_status>0">
-												<view class='name line1'><text class="message" style="color: green;">USDT (status:success)</text></view>
-											</block>
-											<block v-else>
-												<view class='name line1'><text class="message" style="color: black;">USDT (status:under review)</text></view>
-											</block>
+											<view class='name line1'><text class="message" style="color: black;">{{getTypeName(item.financial_type)}} ({{getStatusName(item.status)}})</text></view>
 										</block>
 										<view>{{item.create_time}}</view>
 									</view>
@@ -103,6 +101,26 @@
 			this.getRecordList(this.mer_id);
 		},
 		methods: {
+			// 根据financial_type返回提现类型名称
+			getTypeName(type) {
+				switch(parseInt(type)) {
+					case 1: return this.$t(`page.users.userSpread.bank`) || '银行卡';
+					case 2: return '微信';
+					case 3: return '支付宝';
+					case 4: return 'USDT';
+					case 5: return this.$t(`page.users.userCash.balance`) || '余额';
+					default: return '未知';
+				}
+			},
+			// 根据status返回状态名称
+			getStatusName(status) {
+				switch(parseInt(status)) {
+					case -1: return this.$t(`page.users.userCash.statusRejected`) || '已拒绝';
+					case 0: return this.$t(`page.users.userCash.statusPending`) || '审核中';
+					case 1: return this.$t(`page.users.userCash.statusApproved`) || '已通过';
+					default: return '未知';
+				}
+			},
 			onLoadFun() {
 				this.isShowAuth = false;
 				this.getRecordList();

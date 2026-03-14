@@ -119,7 +119,8 @@ export function extractLst(data,mer_id) {
 /**
  * @description 申请转账
  */
-export function extractCash(data,mer_id) {
+export function extractCash(data,mer_id,uid) {
+  data.uid = uid;
   return request.post("admin/"+mer_id+"/financial/create", data)
 }
 

@@ -458,6 +458,13 @@ export function getStoreTypeApi() {
 	});
 }
 /**
+ * 获取用户最新申请状态
+ * @returns {*}
+ */
+export function getIntentionStatus() {
+	return request.get('intention/status', {});
+}
+/**
  * 到货通知
  * 
  */

@@ -11,7 +11,7 @@
 				</view>
 			</view>
 			<view class="time">{{ item.create_time }} {{ item.sku ? item.sku : '' }}</view>
-			<view class="evaluate-infor">{{ item.comment }}</view>
+			<view class="evaluate-infor">{{ item.comment === '系统默认好评' ? $t('page.product.defaultReview') : item.comment }}</view>
 			<view class="imgList acea-row">
 				<view class="pictrue" v-for="(itemn, indexn) in item.pics" :key="indexn" v-if="indexn<=3"  @click='getpreviewImage(indexw, indexn)'>
 					<easy-loadimage :image-src="itemn"></easy-loadimage>

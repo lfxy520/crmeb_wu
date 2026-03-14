@@ -126,6 +126,15 @@ export default {
 		takeon:'上架',
 		takeoff:'下架',
 		editprice:'点击修改价格',
+		bindPhoneFirst:'请先绑定手机号',
+		subscribeSuccess:'订阅成功',
+		increaseTakeDisabled:'未开启到货通知',
+		productNotFound:'商品不存在',
+		orderNotFound:'订单不存在',
+		productAlreadyReviewed:'该商品已评价',
+		reviewSuccess:'评价成功',
+		missingParams:'缺少参数',
+		defaultReview:'系统默认好评',
 	},
     index:{ //首页
       mainNav:[
@@ -179,6 +188,7 @@ export default {
       sold: '已售',
       type:'种类型可选',
 	  contact:'客服',
+      arrivalNotice:'到货通知',
       navList:[
         {name:'商品'},
         {name:'评价'},
@@ -270,6 +280,8 @@ export default {
 	  merchant:'店铺',
 	  managementCenter:'进入商家管理中心',
 	  Appl:"商户入驻",
+	  merchantAudit:"您的商户入驻申请正在审核中，请耐心等待",
+	  merchantAlready:"您已经开过店铺，只能开一家店铺",
 	  Lang:"切换语言",
 	  Serv:'联系客服',
 	  Exte:'我的推广',
@@ -458,7 +470,12 @@ export default {
 			extractAmountTooLarge:'单次申请金额超出限制',
 			balanceTooLow:'余额低于最低提现额度',
 			minExtractAmount:'提现金额低于最低提现额度',
-			extractAmountInsufficient:'提现金额不足'
+			extractAmountInsufficient:'提现金额不足',
+			balance:'余额',
+			balanceWithdrawSuccess:'提现成功，已到余额',
+			statusRejected:'已拒绝',
+			statusPending:'审核中',
+			statusApproved:'已通过'
 		},
 		financial:{
 			duplicateApply:'请勿重复申请',
@@ -838,6 +855,20 @@ export default {
       more: '显示更多',
       hide: '隐藏更多',
 	  uploading:'图片上传中...'
+    },
+    store: {
+      storeClosed: '店铺已打烊'
+    },
+    userRelation: {
+      paramsLost: '参数丢失',
+      paramsError: '参数错误',
+      dataNotFound: '数据不存在',
+      alreadyFollowed: '您已经关注过了',
+      followSuccess: '关注成功',
+      infoNotFound: '信息不存在',
+      cancelFollowSuccess: '已取消关注',
+      selectProduct: '请选择商品',
+      collectSuccess: '收藏成功'
     },
     settled: {
       emptyName:"请输入企业名称",

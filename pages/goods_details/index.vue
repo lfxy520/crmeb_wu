@@ -151,7 +151,7 @@
 						<view class="store-hd skeleton-rect">
 							<view class="store-info">
 								<view class="logo">
-									<image :src="storeInfo.merchant.mer_avatar" mode=""></image>
+									<image :src="storeAvatar" mode=""></image>
 								</view>
 								<view class="info">
 									<view class="name line1">
@@ -243,7 +243,7 @@
 				</view>
 				<view v-else class='bnt acea-row skeleton-rect'>
 					<form report-submit='true'>
-						<button v-if="arrival_notice" class='buy bnts sold_out' form-type="submit" @click="arrivalNotice">到货通知</button>
+						<button v-if="arrival_notice" class='buy bnts sold_out' form-type="submit" @click="arrivalNotice">{{$t(`page.goodsDetail.arrivalNotice`)}}</button>
 						<button v-else class='buy bnts sold_out' form-type="submit" disabled>{{$t(`page.goodsDetail.soldOut`)}}</button>
 					</form>
 				</view>
@@ -467,7 +467,19 @@
 				comboList: []
 			};
 		},
-		computed: mapGetters(['isLogin','uid','viewColor']),
+		computed: {
+			...mapGetters(['isLogin','uid','viewColor']),
+			// 获取店铺头像，如果没有则使用默认图片
+			storeAvatar() {
+				if (this.storeInfo && this.storeInfo.merchant) {
+					const avatar = this.storeInfo.merchant.mer_avatar;
+					if (avatar && avatar.length > 0) {
+						return avatar;
+					}
+				}
+				return '/static/images/store_default_avatar.png';
+			}
+		},
 		onLoad(options) {
 			let that = this
 			if (options.spid) {
@@ -566,6 +578,17 @@
 		},
 		// #endif
 		methods: {
+			// 翻译API返回的错误消息
+			translateMsg(msg) {
+				if (!msg) return '';
+				// 检查是否是翻译key
+				const key = msg;
+				const translated = this.$t(`page.product.${key}`);
+				if (translated !== `page.product.${key}`) {
+					return translated;
+				}
+				return msg;
+			},
 			call: function(){
 				uni.makePhoneCall({
 					// 手机号
@@ -616,12 +639,12 @@
 				// #endif
 				arrivalNoticeApi({ unique: uniqueValue,type:typeValue,product_id: that.id }).then(res => {
 					return that.$util.Tips({
-						title: res.message
+						title: that.translateMsg(res.message)
 					})
 				}).catch(err => {
 					//状态异常返回上级页面
 					return that.$util.Tips({
-						title: err
+						title: that.translateMsg(err)
 					})
 				})
 			},

@@ -2,7 +2,7 @@
 	<view :style="viewColor">
 		<view :style="{ 'background-image': `linear-gradient(0deg, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 1) 40%),url(${store.mer_banner})` }" class="store-detail">
 			<view class="section head">
-				<image :src="store.mer_avatar"></image>
+				<image :src="storeAvatar"></image>
 				<view class="text-wrap">
 					<view class="name line1">
 						<text class="name_store">{{ store.mer_name }}</text>
@@ -82,7 +82,19 @@ import { getStoreDetail, followStore, unfollowStore, merchantQrcode } from '@/ap
 import { HTTP_REQUEST_URL } from '@/config/app';
 let app = getApp();
 export default {
-	computed: mapGetters(['isLogin', 'uid', 'viewColor', 'keyColor']),
+	computed: {
+		...mapGetters(['isLogin', 'uid', 'viewColor', 'keyColor']),
+		// 获取店铺头像，如果没有则使用默认图片
+		storeAvatar() {
+			if (this.store) {
+				const avatar = this.store.mer_avatar;
+				if (avatar && avatar.length > 0) {
+					return avatar;
+				}
+			}
+			return '/static/images/store_default_avatar.png';
+		}
+	},
 	filters: {
 		dateFormat: function(value) {
 			if (!value) {

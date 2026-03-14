@@ -164,6 +164,7 @@
 		setVisit
 	} from '@/api/user.js';
 	import { orderData } from '@/api/order.js'
+	import { getIntentionStatus } from '@/api/store.js'
 	import { mapGetters } from "vuex";
 	import authorize from '@/components/Authorize';
 	// #ifndef H5
@@ -258,6 +259,40 @@
 		methods: {
 			authTo(url){
 				console.log(url)
+				// 商户入驻页面需要先检查申请状态
+				if(url.indexOf("/pages/store/settled/index") != -1){
+					getIntentionStatus().then(res => {
+						if(!res.data.has_apply){
+							// 未申请过，直接跳转
+							this.goToUrl(url);
+						}else{
+							// 已经申请过
+							if(res.data.status == 0){
+								// 审核中
+								this.$util.Tips({
+									title: this.$t(`page.user.merchantAudit`) || '您的商户入驻申请正在审核中，请耐心等待'
+								});
+							}else if(res.data.status == 1){
+								// 审核通过
+								this.$util.Tips({
+									title: this.$t(`page.user.merchantAlready`) || '您已经开过店铺，只能开一家店铺'
+								});
+							}else if(res.data.status == 2){
+								// 审核拒绝，可以修改后重新提交
+								uni.navigateTo({
+									url: url + '?mer_i_id=' + res.data.mer_intention_id
+								});
+							}
+						}
+					}).catch(() => {
+						// 接口失败时直接跳转
+						this.goToUrl(url);
+					});
+					return;
+				}
+				this.goToUrl(url);
+			},
+			goToUrl(url){
 				if(this.isLogin || url == '/pages/change_lang/change_lang'){
 					uni.navigateTo({
 						url
@@ -296,6 +331,42 @@
 				return !menu || ['integral','service','admin_order','verify_order','intention','promoter','balance'].indexOf(menu) === -1;
 			},
 			goUrl(url){
+				let that = this;
+				// 商户入驻页面需要先检查申请状态
+				if(url.indexOf("/pages/store/settled/index") != -1){
+					getIntentionStatus().then(res => {
+						if(!res.data.has_apply){
+							// 未申请过，直接跳转
+							uni.navigateTo({
+								url: url
+							})
+						}else{
+							// 已经申请过
+							if(res.data.status == 0){
+								// 审核中
+								that.$util.Tips({
+									title: that.$t(`page.user.merchantAudit`) || '您的商户入驻申请正在审核中，请耐心等待'
+								});
+							}else if(res.data.status == 1){
+								// 审核通过
+								that.$util.Tips({
+									title: that.$t(`page.user.merchantAlready`) || '您已经开过店铺，只能开一家店铺'
+								});
+							}else if(res.data.status == 2){
+								// 审核拒绝，可以修改后重新提交
+								uni.navigateTo({
+									url: url + '?mer_i_id=' + res.data.mer_intention_id
+								});
+							}
+						}
+					}).catch(() => {
+						// 接口失败时直接跳转
+						uni.navigateTo({
+							url: url
+						});
+					});
+					return;
+				}
 				if(url.indexOf("http") != -1){
 					// #ifdef H5
 					location.href = url

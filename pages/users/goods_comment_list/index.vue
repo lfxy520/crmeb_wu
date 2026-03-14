@@ -70,7 +70,7 @@
 		onLoad: function(options) {
 			let that = this;
 			if (!options.product_id) return that.$util.Tips({
-				title: '缺少参数'
+				title: that.$t('page.product.missingParams')
 			}, {
 				tab: 3,
 				url: 1

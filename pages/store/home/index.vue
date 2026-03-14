@@ -65,7 +65,7 @@
 		<scroll-view class="main" scroll-y="true" @scroll="scrollHome" :style="viewColor">
 			<!-- 店铺信息 -->
 			<view id="store" class="store">
-				<image :src="store.mer_avatar"></image>
+				<image :src="storeAvatar"></image>
 				<view class="text">
 					<navigator :url="`/pages/store/detail/index?id=${id}`" hover-class="none">
 						<text v-if="store.type_name" class="font-bg-red">{{store.type_name}}</text>
@@ -498,6 +498,15 @@
 				score.star = score.number;
 				return score;
 			},
+			// 获取店铺头像，如果没有则使用默认图片
+			storeAvatar() {
+				const avatar = this.store.mer_avatar;
+				if (avatar && avatar.length > 0) {
+					return avatar;
+				}
+				// 使用相对路径，参考页面中其他图片的加载方式
+				return '/static/images/store_default_avatar.png';
+			},
 			...mapGetters(['isLogin','uid','viewColor','keyColor']),
 		},
 		watch: {
@@ -572,7 +581,7 @@
 			let that = this;
 			return {
 				title: that.store.mer_name || '',
-				imageUrl: that.store.mer_avatar || '',
+				imageUrl: that.storeAvatar,
 				path: '/pages/store/index?id=' + that.id + '&spid=' + that.uid,
 			}
 		},
@@ -584,7 +593,7 @@
 					id: that.id,
 					spid: that.uid
 				},
-				imageUrl: that.store.mer_avatar || ''
+				imageUrl: that.storeAvatar
 			}
 		},
 		// #endif
@@ -603,6 +612,22 @@
 				})
 			},
 			//#endif
+			// 翻译API返回的错误消息
+			translateMsg(msg){
+				const msgMap = {
+					'storeClosed': this.$t('message.store.storeClosed'),
+					'paramsLost': this.$t('message.userRelation.paramsLost'),
+					'paramsError': this.$t('message.userRelation.paramsError'),
+					'dataNotFound': this.$t('message.userRelation.dataNotFound'),
+					'alreadyFollowed': this.$t('message.userRelation.alreadyFollowed'),
+					'followSuccess': this.$t('message.userRelation.followSuccess'),
+					'infoNotFound': this.$t('message.userRelation.infoNotFound'),
+					'cancelFollowSuccess': this.$t('message.userRelation.cancelFollowSuccess'),
+					'selectProduct': this.$t('message.userRelation.selectProduct'),
+					'collectSuccess': this.$t('message.userRelation.collectSuccess')
+				};
+				return msgMap[msg] || msg;
+			},
 			onTouchmove(e){
 				if (this.loadend) return;
 				if (this.loading) return;
@@ -675,7 +700,7 @@
 					that.loading = false;
 					that.goodsLoading = false;
 					uni.showToast({
-						title: err,
+						title: that.translateMsg(err),
 						icon: 'none'
 					})
 					setTimeout(function() {
@@ -693,12 +718,12 @@
 					setCouponReceive(item.coupon_id).then(res => {
 						item.issue = 1
 						uni.showToast({
-							title: res.message,
+							title: this.translateMsg(res.message),
 							icon: 'none'
 						})
 					}).catch(err => {
 						uni.showToast({
-							title: err,
+							title: that.translateMsg(err),
 							icon: 'none'
 						})
 					})
@@ -723,7 +748,7 @@
 				}).catch(err => {
 					this.loading = false;
 					uni.showToast({
-						title: err,
+						title: that.translateMsg(err),
 						icon: 'none'
 					})
 					setTimeout(function() {
@@ -753,7 +778,7 @@
 					that.loading = false;
 					that.goodsLoading = false;
 					uni.showToast({
-						title: err,
+						title: that.translateMsg(err),
 						icon: 'none'
 					})
 					setTimeout(function() {
@@ -798,7 +823,7 @@
 						this.store.care = true;
 					}
 					this.$util.Tips({
-						title: res.message
+						title: this.translateMsg(res.message)
 					});
 				});
 			},
@@ -809,7 +834,7 @@
 						this.store.care = false;
 					}
 					this.$util.Tips({
-						title: res.message
+						title: this.translateMsg(res.message)
 					});
 				});
 			},
@@ -890,7 +915,7 @@
 							// #endif
 						}).catch((err) => {
 							uni.showToast({
-								title: err,
+								title: that.translateMsg(err),
 								icon: 'none'
 							})
 						});
@@ -942,7 +967,7 @@
 							desc: data.mer_info,
 							title: data.mer_name,
 							link: href,
-							imgUrl: data.mer_avatar
+							imgUrl: this.storeAvatar
 						};
 						this.$wechat.wechatEvevt([
 							"updateAppMessageShareData",

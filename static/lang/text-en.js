@@ -126,7 +126,16 @@ export default {
 			recover:'Recover',
 			takeon:'Take on',
 			takeoff:'Take off',
-			editprice:'edit price'
+			editprice:'edit price',
+			bindPhoneFirst:'Please bind phone number first',
+			subscribeSuccess:'Subscribed successfully',
+			increaseTakeDisabled:'Arrival notification is not enabled',
+			productNotFound:'Product not found',
+			orderNotFound:'Order not found',
+			productAlreadyReviewed:'Product already reviewed',
+			reviewSuccess:'Review submitted',
+			missingParams:'Missing parameters',
+			defaultReview:'Default review'
 		},
 		index:{
 			mainNav:[
@@ -180,6 +189,7 @@ export default {
 			sold: 'Sold',
 			type:'types in total',
 			contact:'contact',
+			arrivalNotice:'Arrival Notice',
 			navList:[
 				{name:'product'},
 				{name:'review'},
@@ -193,7 +203,7 @@ export default {
 			confirm:'Confirm',
 			cancel: 'Cancel',
 			assure:"Assure",
-			shipping:"free shipping",
+			shipping:"Ship",
 			click:"Click"
 		},
 		goodsList:{
@@ -270,6 +280,8 @@ export default {
 		  merchant:'merchant',
 		  managementCenter:'Merchant Management Center',
 		  Appl:"Apply",
+		  merchantAudit:"Your merchant application is under review, please wait patiently",
+		  merchantAlready:"You have already opened a store, you can only open one store",
 		  Lang:"Language",
 		  Serv:'Contact',
 		  Exte:'Extension'
@@ -461,7 +473,12 @@ export default {
 				extractAmountTooLarge:'Single withdrawal amount exceeds limit',
 				balanceTooLow:'Balance below minimum withdrawal threshold',
 				minExtractAmount:'Withdrawal amount below minimum',
-				extractAmountInsufficient:'Insufficient withdrawal amount'
+				extractAmountInsufficient:'Insufficient withdrawal amount',
+				balance:'Balance',
+				balanceWithdrawSuccess:'Withdrawal successful, credited to balance',
+				statusRejected:'Rejected',
+				statusPending:'Pending',
+				statusApproved:'Approved'
 			},
 			financial:{
 				duplicateApply:'Do not apply repeatedly',
@@ -838,6 +855,20 @@ export default {
 			noEvaluation: 'no comments~',
 			more: 'display more',
 			uploading:'uploading...'
+		},
+		store: {
+			storeClosed: 'Store is closed'
+		},
+		userRelation: {
+			paramsLost: 'Parameter missing',
+			paramsError: 'Parameter error',
+			dataNotFound: 'Data not found',
+			alreadyFollowed: 'You have already followed',
+			followSuccess: 'Follow success',
+			infoNotFound: 'Information not found',
+			cancelFollowSuccess: 'Cancelled follow',
+			selectProduct: 'Please select product',
+			collectSuccess: 'Collect success'
 		},
 		settled: {
 			emptyName:"Your company name",

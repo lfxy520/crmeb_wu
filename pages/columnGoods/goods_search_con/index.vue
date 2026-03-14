@@ -133,7 +133,7 @@
 									</view>
 								</view>
 							</view>
-							<view class="link" @click="goStore(item.mer_id)"></view>
+							<view class="link" @click="goStore(item.mer_id)">{{$t(`page.goodsDetail.click`)}}</view>
 						</view>
 						<view class="pic-wrapper">
 							<view class="pic-item" v-for="(goods,index) in item.recommend" :key="index">
