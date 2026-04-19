@@ -123,9 +123,10 @@
 				}).then(res => {
 					if (res.data !== undefined && res.data.is_bind) {
 						uni.showModal({
-							title: '是否绑定账号',
+							title: this.$t('page.userPhone.bindAccount'),
 							content: res.msg,
-							confirmText: '绑定',
+							confirmText: this.$t('page.userPhone.bind'),
+							cancelText: this.$t('page.goodsDetail.cancel'),
 							success(res) {
 								if (res.confirm) {
 									bindingPhone({

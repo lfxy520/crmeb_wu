@@ -7,15 +7,15 @@ let openPlantGrass = '-openPlantGrass-'
 // 网络接口修改此字符 小程序域名要求https
 
 
-//let httpApi = 'https://titkmalls.xyz' //测试
-let httpApi = 'http://172.26.241.19:8325' //本地WSL
+let httpApi = 'https://1688wjj.com' //测试
+//let httpApi = 'http://172.26.241.19:8325' //本地WSL
 
 
 
 
 // 聊天接口修改此字符 小程序聊天要求wss 例如：wss://mer.crmeb.net
-let wsApi = 'ws://172.26.241.19:8325'
-//let wsApi = 'wss://titkmalls.xyz'
+//let wsApi = 'ws://172.26.241.19:8325' 
+let wsApi = 'wss://1688wjj.com'
 
 module.exports = {
 	// 请求域名 格式： https://您的域名

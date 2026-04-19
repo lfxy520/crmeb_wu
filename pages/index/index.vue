@@ -722,8 +722,10 @@ export default {
 				uni.getSystemInfo({
 					success: (res) => {
 						uni.showModal({
-							title: '更新提示',
-							content: '发现新版本，是否前去下载?',
+							title: this.$t('page.index.updateTip'),
+							content: this.$t('page.index.updateContent'),
+							confirmText: this.$t('page.goodsDetail.confirm'),
+							cancelText: this.$t('page.goodsDetail.cancel'),
 							showCancel: this.appUpdate.openUpgrade !=
 								'1',
 							cancelColor: '#eeeeee',
@@ -899,7 +901,7 @@ export default {
 				that.$set(that, 'hot', res.data.hot);
 				that.$set(that, 'ad', res.data.ad);
 				res.data.category.unshift({
-					cate_name: '首页'
+					cate_name: that.$t('page.store.index')
 				});
 				that.$set(that, 'navTop', res.data.category);
 				// #ifdef H5
@@ -941,8 +943,10 @@ export default {
 			if (item.activity && item.activity.type === '2' && !this.isLogin) {
 				// #ifdef H5
 				uni.showModal({
-					title: '提示',
-					content: '您未登录，请登录！',
+					title: this.$t('page.index.tip'),
+					content: this.$t('page.index.pleaseLogin'),
+					confirmText: this.$t('page.goodsDetail.confirm'),
+					cancelText: this.$t('page.goodsDetail.cancel'),
 					success: function(res) {
 						if (res.confirm) {
 							uni.navigateTo({

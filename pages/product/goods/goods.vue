@@ -3,17 +3,18 @@
     <view class="order-index" ref="container">
       <view class="wrapper">
         <view class='product_list acea-row row-between-wrapper'>
-          <block v-for="(item,index) in productList" :key="index"> 
+          <block v-for="(item,index) in productList" :key="index">
               <view class='item'>
 				<view class='image'>
+				  <checkbox :checked="selectedIds.includes(item.product_id)" @click="toggleSelect(item.product_id)"></checkbox>
 				  <image :src='item.image'></image>
-				  <text v-if="item.spec_type == 1" class="spec">多规格</text>
+				  <text v-if="item.spec_type == 1" class="spec">{{$t('page.product.multipleSpec')}}</text>
 				</view>
 				<view class='text'>
 				  <view class='name'>
-					  <text v-if="item.is_gift_bag" class="font-org">礼包</text>
+					  <text v-if="item.is_gift_bag" class="font-org">{{$t('page.product.giftBag')}}</text>
 					  <text class="text_name acea-row line1">{{item.store_name}}</text>
-				   
+
 				  </view>
 				  <view class="sales">
 				    <text class="num">{{$t('page.goodsDetail.inventory')}}: {{item.stock}}</text>
@@ -23,8 +24,8 @@
 				    <text class='price font-color'>{{item.price}}</text>
 				    <text class='ot_price'>{{item.ot_price}}</text>
 				  </view>
-				</view>  
-			  </view>		  
+				</view>
+			  </view>
             <view class="operation acea-row row-between-wrapper">
               <view></view>
               <view class="acea-row row-middle">
@@ -35,6 +36,14 @@
         </view>
       </view>
       <Loading :loaded="loaded" :loading="loading"></Loading>
+    </view>
+    <!-- 批量操作悬浮按钮 -->
+    <view class="batch-float-btn" v-if="selectedIds.length > 0" @click="batchCopy">
+      <text>{{$t('page.product.batchAdd')}}{{selectedIds.length > 0 ? '('+selectedIds.length+')' : ''}}</text>
+    </view>
+    <view class="batch-select-bar" v-if="selectedIds.length > 0">
+      <checkbox :checked="selectedIds.length === productList.length" @click="toggleAll"></checkbox>
+      <text>{{$t('page.product.selected')}}{{selectedIds.length}}{{$t('page.product.items')}}</text>
     </view>
   </view>
 </template>
@@ -50,10 +59,10 @@
 // | Author: CRMEB Team <admin@crmeb.com>
 // +----------------------------------------------------------------------
 import {
-  productLstApi, productDeleteApi, productOffApi, productRecommendApi
+  productLstApi, productDeleteApi, productOffApi, productRecommendApi, batchCopyApi
 } from "@/api/product";
 import Loading from '@/components/Loading/index.vue';
-import { navigateTo, navigateBack, serialize, setStorage, getStorage, removeStorage, Toast, Modal,} from '../../../libs/uniApi.js';
+import { navigateTo, navigateBack, serialize, setStorage, getStorage, removeStorage, Toast,} from '../../../libs/uniApi.js';
 export default {
   name: 'productList',
   components: {
@@ -72,13 +81,49 @@ export default {
       productList: [],
 	  swiperCur: 0,
 	  circular: true,
+	  selectedIds: [],
+    }
+  },
+  data() {
+    return {
+      where: {
+        page: 1,
+        limit: 20
+      },
+      loaded: false,
+      loading: false,
+      mer_id: '',
+      platMerId: '', // 平台商品库的mer_id (用于分页加载)
+      productList: [],
+	  swiperCur: 0,
+	  circular: true,
+	  selectedIds: [],
     }
   },
   onLoad(options) {
+  	// 保存平台商品库的mer_id (用于分页加载)
+  	this.platMerId = options.mer_id;
+  	// 如果mer_id为0（商品库页面），从storage获取商户ID用于复制操作
   	this.mer_id = options.mer_id;
-    this.getList(this.mer_id);
+  	if (this.mer_id == 0) {
+  		const storedMerId = getStorage('mer_id');
+  		if (storedMerId) {
+  			this.mer_id = storedMerId;
+  		}
+  	}
+    this.getList(this.platMerId);
   },
   methods: {
+		// 翻译API消息
+		translateMsg(msg) {
+			if (!msg) return '';
+			const key = msg;
+			const translated = this.$t(`page.product.${key}`);
+			if (translated !== `page.product.${key}`) {
+				return translated;
+			}
+			return msg;
+		},
 		// 跳转添加商品界面
 		jumpAddGoods() {
 			const data = getStorage('addGoodsFormData');
@@ -137,12 +182,78 @@ export default {
       });
       navigateTo(1, '/pages/product/addGoods/index', { mer_id: item.mer_id, product_id: item.product_id ,from:'plat'});
     },
+	// 切换商品选择状态
+	toggleSelect(productId) {
+		const index = this.selectedIds.indexOf(productId);
+		if (index > -1) {
+			this.selectedIds.splice(index, 1);
+		} else {
+			this.selectedIds.push(productId);
+		}
+	},
+	// 全选/取消全选
+	toggleAll() {
+		if (this.selectedIds.length === this.productList.length) {
+			this.selectedIds = [];
+		} else {
+			this.selectedIds = this.productList.map(item => item.product_id);
+		}
+	},
+	// 批量复制商品
+	batchCopy() {
+		if (this.selectedIds.length === 0) {
+			uni.showToast({ title: this.$t('page.product.batchSelectProducts'), icon: 'none' });
+			return;
+		}
+		let that = this;
+		uni.showModal({
+			title: that.$t('page.product.batchCopy'),
+			content: that.$t('page.product.batchCopyConfirm').replace('{count}', that.selectedIds.length),
+			confirmText: that.$t('page.goodsDetail.confirm'),
+			cancelText: that.$t('page.goodsDetail.cancel'),
+			success: (res) => {
+				if (res.confirm) {
+					uni.showLoading({ title: that.$t('page.product.batchCopyLoading') || '处理中...' });
+					batchCopyApi(that.mer_id, { product_ids: that.selectedIds.join(',') }).then(res => {
+						uni.hideLoading();
+						const successCount = res.data.successCount || 0;
+						const failCount = res.data.failCount || 0;
+						const existsCount = res.data.existsCount || 0;
+						// 打印失败详情到控制台
+						if (res.data.failProducts && res.data.failProducts.length > 0) {
+							console.log('批量复制失败详情:', res.data.failProducts);
+						}
+						// 显示结果：成功 X 个，已存在 Y 个，失败 Z 个
+						let message = '';
+						if (successCount > 0) {
+							message += that.$t('page.product.batchCopySuccess') + successCount;
+						}
+						if (existsCount > 0) {
+							message += (message ? '，' : '') + that.$t('page.product.batchCopyExists') + existsCount;
+						}
+						if (failCount > 0) {
+							message += (message ? '，' : '') + that.$t('page.product.batchCopyFail') + failCount;
+						}
+						if (message) {
+							uni.showToast({ title: message, icon: 'none' });
+						} else {
+							uni.showToast({ title: that.$t('page.product.batchCopyNoChange'), icon: 'none' });
+						}
+						that.selectedIds = [];
+					}).catch(err => {
+						uni.hideLoading();
+						uni.showToast({ title: err.msg || that.$t('page.product.batchCopyFail'), icon: 'none' });
+					});
+				}
+			}
+		});
+	},
     more(index) {
       this.current = index
     },
   },
   onReachBottom() {
-    this.getList(this.mer_id)
+    this.getList(this.platMerId)
   }
 }
 </script>
@@ -364,5 +475,32 @@ uni-swiper,swiper{
 	  }
     }
   }
+}
+// 批量操作悬浮按钮
+.batch-float-btn {
+  position: fixed;
+  right: 30rpx;
+  bottom: 100rpx;
+  background: linear-gradient(135deg, #FD6523 0%, #E93323 100%);
+  color: #ffffff;
+  padding: 20rpx 30rpx;
+  border-radius: 50rpx;
+  font-size: 28rpx;
+  box-shadow: 0 4rpx 20rpx rgba(233, 51, 35, 0.4);
+  z-index: 100;
+}
+// 批量选择栏
+.batch-select-bar {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: #ffffff;
+  padding: 20rpx 30rpx;
+  display: flex;
+  align-items: center;
+  box-shadow: 0 -2rpx 10rpx rgba(0, 0, 0, 0.1);
+  z-index: 99;
+  font-size: 28rpx;
 }
 </style>

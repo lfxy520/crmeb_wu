@@ -550,8 +550,10 @@ export default {
 			if (item.activity && item.activity.type === '2' && !this.isLogin) {
 				// #ifdef H5
 				uni.showModal({
-					title: '提示',
-					content: '您未登录，请登录！',
+					title: this.$t('page.index.tip'),
+					content: this.$t('page.index.pleaseLogin'),
+					confirmText: this.$t('page.goodsDetail.confirm'),
+					cancelText: this.$t('page.goodsDetail.cancel'),
 					success: function(res) {
 						if (res.confirm) {
 							uni.navigateTo({

@@ -230,11 +230,13 @@
 			 */
 			outLogin: function() {
 				let that = this;
-				
+
 				if (that.loginType == 'h5') {
 					uni.showModal({
 						title: this.$t(`message.login.prompt`),
 						content: this.$t(`message.login.logout`),
+						confirmText: this.$t('page.goodsDetail.confirm'),
+						cancelText: this.$t('page.goodsDetail.cancel'),
 						success: function(res) {
 							if (res.confirm) {
 								getLogout()

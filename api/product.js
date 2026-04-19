@@ -208,7 +208,14 @@ export function productUpdate(merId, id, data) {
 }
 /*
 	添加商品 -- 获取送货方式信息
-*/ 
+*/
 export function getDeliveryType(merId) {
 	return request.get(`server/${merId}/product/config`, {}, { login: true });
+}
+
+/*
+	批量复制平台商品
+*/
+export function batchCopyApi(merId, data) {
+	return request.post(`server/${merId}/store/productcopy/batch_copy`, data, { login: true });
 }

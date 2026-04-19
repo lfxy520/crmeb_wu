@@ -368,8 +368,10 @@
 			confirmOrder: function(item, index) {
 				let that = this;
 				uni.showModal({
-					title: '确认收货',
-					content: '为保障权益，请收到货确认无误后，再确认收货',
+					title: that.$t('page.orderList.confirmReceive'),
+					content: that.$t('page.orderList.confirmReceiveTip'),
+					confirmText: that.$t('page.goodsDetail.confirm'),
+					cancelText: that.$t('page.goodsDetail.cancel'),
 					success: function(res) {
 						if (res.confirm) {
 							orderTake(item.order_id).then(res => {

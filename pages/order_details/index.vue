@@ -787,8 +787,10 @@
 			cancelOrder() {
 				let self = this
 				uni.showModal({
-					title: '提示',
-					content: '确认取消该订单?',
+					title: self.$t('page.orderDetails.tip'),
+					content: self.$t('page.orderDetails.confirmCancel'),
+					confirmText: self.$t('page.goodsDetail.confirm'),
+					cancelText: self.$t('page.goodsDetail.cancel'),
 					success: function(res) {
 						if (res.confirm) {
 							orderDel(self.orderInfo.order_id)

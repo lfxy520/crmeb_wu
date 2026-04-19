@@ -184,8 +184,10 @@
 					},
 					fail: function(res) {
 						uni.showModal({
-							title: '您已拒绝导入微信地址权限',
-							content: '是否进入权限管理，调整授权？',
+							title: this.$t('page.userAddress.wechatPermissionDenied'),
+							content: this.$t('page.userAddress.adjustPermission'),
+							confirmText: this.$t('page.goodsDetail.confirm'),
+							cancelText: this.$t('page.goodsDetail.cancel'),
 							success(res) {
 								if (res.confirm) {
 									uni.openSetting({

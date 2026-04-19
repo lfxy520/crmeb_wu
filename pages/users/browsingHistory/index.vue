@@ -192,8 +192,10 @@
 					});
 				}else{
 					uni.showModal({
-					    title: '提示',
+					    title: that.$t('page.index.tip'),
 					     content: content,
+					     confirmText: that.$t('page.goodsDetail.confirm'),
+					     cancelText: that.$t('page.goodsDetail.cancel'),
 					     success: function (res) {
 							if (res.confirm) {							
 								historyBatchDelete({

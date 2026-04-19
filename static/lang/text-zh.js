@@ -135,6 +135,24 @@ export default {
 		reviewSuccess:'评价成功',
 		missingParams:'缺少参数',
 		defaultReview:'系统默认好评',
+		batchSelectProducts:'请选择要复制的商品',
+		copyTimesUsedUp:'复制商品次数已用完',
+		batchCopySuccess:'成功',
+		batchCopyFail:'失败',
+		batchCopyExists:'已存在',
+		batchCopyNoChange:'没有需要处理的数据',
+		productAlreadyExists:'商品已存在',
+		batchCopyItems:'件商品',
+		batchCopy:'批量复制',
+		batchCopyConfirm:'确定要复制选中的{count}件商品吗？',
+		batchCopyLoading:'处理中...',
+		copyProductDisabled:'复制商品功能未开启',
+		invalidUrl:'URL地址有误',
+		multipleSpec:'多规格',
+		giftBag:'礼包',
+		batchAdd:'一键添加',
+		selected:'已选',
+		items:'件',
 	},
     index:{ //首页
       mainNav:[
@@ -164,7 +182,11 @@ export default {
 	  Furn:"家具沙发",
 	  Spor:"户外运动",
 	  Jewe:"珠宝首饰",
-	  Life:"居家生活"
+	  Life:"居家生活",
+	  updateTip:"更新提示",
+	  updateContent:"发现新版本，是否前去下载?",
+	  tip:"提示",
+	  pleaseLogin:"您未登录，请登录！"
     },
     goodsDetail:{ //商品详情
       search:'搜索商品',
@@ -562,7 +584,9 @@ export default {
         delete:'删除订单',
         empty:'暂无订单信息',
         pay:'立即付款',
-        complete:'完成'
+        complete:'完成',
+        confirmReceive:'确认收货',
+        confirmReceiveTip:'为保障权益，请收到货确认无误后，再确认收货'
       },
       userCoupon:{
         navTitle:'我的优惠券',
@@ -604,6 +628,10 @@ export default {
         del:'删除',
         sureDel: '确定删除该地址吗'
       },
+      userPhone:{
+        bindAccount:'是否绑定账号',
+        bind:'绑定'
+      },
       userAddress:{
         navTitle:'地址管理',
         name:'姓名',
@@ -614,7 +642,9 @@ export default {
         phone:'电话号码',
         default:'设为默认',
         save:'保存',
-        place:'请输入'
+        place:'请输入',
+        wechatPermissionDenied:'您已拒绝导入微信地址权限',
+        adjustPermission:'是否进入权限管理，调整授权？'
       },
       userReturnList:{
         navTitle:'申请退货',
@@ -857,7 +887,8 @@ export default {
 	  uploading:'图片上传中...'
     },
     store: {
-      storeClosed: '店铺已打烊'
+      storeClosed: '店铺已打烊',
+      index: '首页'
     },
     userRelation: {
       paramsLost: '参数丢失',

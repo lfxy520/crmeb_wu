@@ -182,5 +182,6 @@
         },
         "title" : "加载中...",
         "template" : "template.h5.html"
-    }
+    },
+	"sassImplementationName" : "node-sass"
 }

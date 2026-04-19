@@ -135,7 +135,25 @@ export default {
 			productAlreadyReviewed:'Product already reviewed',
 			reviewSuccess:'Review submitted',
 			missingParams:'Missing parameters',
-			defaultReview:'Default review'
+			defaultReview:'Default review',
+			batchSelectProducts:'Please select products to copy',
+			copyTimesUsedUp:'Copy quota exhausted',
+			batchCopySuccess:'Success:',
+			batchCopyFail:'Failed:',
+			batchCopyExists:'Exists:',
+			batchCopyNoChange:'No data to process',
+			productAlreadyExists:'Product already exists',
+			batchCopyItems:'items',
+			batchCopy:'Batch Copy',
+			batchCopyConfirm:'Confirm to copy {count} items?',
+			batchCopyLoading:'Processing...',
+			copyProductDisabled:'Copy product feature is disabled',
+			invalidUrl:'Invalid URL',
+			multipleSpec:'Multi-spec',
+			giftBag:'Gift',
+			batchAdd:'Add All',
+			selected:'Selected',
+			items:'items'
 		},
 		index:{
 			mainNav:[
@@ -165,7 +183,11 @@ export default {
 			Furn:"Furniture",
 			Spor:"Sports",
 			Jewe:"Jewelry",
-			Life:"Life"
+			Life:"Life",
+			updateTip:"Update Notice",
+			updateContent:"New version found, would you like to download?",
+			tip:"Notice",
+			pleaseLogin:"You are not logged in, please login!"
 		},
 		goodsDetail:{
 			search:'Search for goods',
@@ -565,7 +587,9 @@ export default {
 				delete:'Delete',
 				empty:'No order information',
 				pay:'Payment',
-				complete:'Complete'
+				complete:'Complete',
+				confirmReceive:'Confirm Receipt',
+				confirmReceiveTip:'To protect your rights, please confirm receipt after receiving the goods'
 			},
 			userCoupon:{
 				navTitle:'My Coupons',
@@ -607,6 +631,10 @@ export default {
         del:'delete',
         sureDel: 'Are you sure to delete this address'
 			},
+			userPhone:{
+				bindAccount:'Bind Account',
+				bind:'Bind'
+			},
 			userAddress:{
 				navTitle:'Address',
 				name:'Name',
@@ -617,7 +645,9 @@ export default {
 				phone:'Phone',
 				default:'Default address',
 				save:'Save',
-				place:'Please enter the '
+				place:'Please enter the ',
+				wechatPermissionDenied:'You have denied WeChat address import permission',
+				adjustPermission:'Would you like to enter permission management to adjust authorization?'
 			},
 			userReturnList:{
 				navTitle:'Return list',
@@ -857,7 +887,8 @@ export default {
 			uploading:'uploading...'
 		},
 		store: {
-			storeClosed: 'Store is closed'
+			storeClosed: 'Store is closed',
+			index: 'Home'
 		},
 		userRelation: {
 			paramsLost: 'Parameter missing',
