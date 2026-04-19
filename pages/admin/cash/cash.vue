@@ -58,7 +58,7 @@
 					</form>
 				</view>
 				<!-- 余额提现表单 -->
-				<view :hidden='currentTab != 2' class='list'>
+				<!-- <view :hidden='currentTab != 2' class='list'>
 					<form @submit="subCash" report-submit='true'>
 						<view class='item acea-row row-between-wrapper'>
 							<view class='name'>{{$t(`page.users.userSpread.amount`)}}:</view>
@@ -69,7 +69,7 @@
 							<button formType="submit" :disabled="load" class='bnt b-color' :class="load ? 'disabled' : ''" >{{$t(`page.users.userSpread.tixian`)}}</button>
 						</view>
 					</form>
-				</view>
+				</view> -->
 			</view>
 		</view>
 		<cash :payMode='pay_type' :pay_close="pay_close" @payClose="payClose" @onChangeFun="onChangeFun" :order_id="currentTab"></cash>
@@ -113,13 +113,13 @@
 							'icon': 'icon-yinhangqia',
 							'bg_color': '#FE960F'
 						},
-					{
-						    'id': '2',
-						    'ids': 5,
-							'name': this.$t(`page.users.userCash.balance`) || '余额',
-							'icon': 'icon-yue',
-							'bg_color': '#41B035'
-						},
+					// {
+						    // 'id': '2',
+						    // 'ids': 5,
+					// 	'name': this.$t(`page.users.userCash.balance`) || '余额',
+					// 	'icon': 'icon-yue',
+					// 	'bg_color': '#41B035'
+					// },
 				],
 				currentTab: '0',
 				extract_money: '',
@@ -193,9 +193,9 @@
 						title: this.$t(`page.users.userSpread.tips5`)
 					});
 					value.financial_type = 4;
-				}else if (that.currentTab == 2) { //余额提现
-					value.financial_type = 5;
-				}
+				// }else if (that.currentTab == 2) { //余额提现
+					// value.financial_type = 5;
+				// }
 				
 				if (value.extract_money.length == 0) return this.$util.Tips({
 					title: this.$t(`page.users.userCash.tips2`)
@@ -207,11 +207,11 @@
 				extractCash(value,that.mer_id,that.uid).then(res => {
 					that.load = false;
 					// 余额提现直接到账，其他需要审核
-					let successMsg = (that.currentTab == 2)
-						? (this.$t(`page.users.userCash.balanceWithdrawSuccess`) || '提现成功，已到余额')
-						: this.$t(`page.users.userCash.tips6`);
+					// let successMsg = (that.currentTab == 2)
+						// ? (this.$t(`page.users.userCash.balanceWithdrawSuccess`) || '提现成功，已到余额')
+						// : this.$t(`page.users.userCash.tips6`);
 					that.$util.Tips({
-						title: successMsg,
+						title: that.$t(`page.users.userCash.tips6`),
 						icon: 'success'
 					});
 					setTimeout(function(){
@@ -238,11 +238,9 @@
 				let str = ''
 				if (this.currentTab == 1) {
 					str = '#41B035'
-				} else if (this.currentTab == 2) {
-					str = '#00A9F2'
-				} else if (this.currentTab == 3) {
-					str = '#0000ff'
-				}else {
+				// } else if (this.currentTab == 2) {
+					// str = '#00A9F2'
+				} else {
 					str = '#FE960F '
 				}
 				return str
