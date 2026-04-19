@@ -193,6 +193,7 @@
 						title: this.$t(`page.users.userSpread.tips5`)
 					});
 					value.financial_type = 4;
+				}
 				// }else if (that.currentTab == 2) { //余额提现
 					// value.financial_type = 5;
 				// }
